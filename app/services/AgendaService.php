@@ -12,56 +12,54 @@ class AgendaService
 {
     public function horasDisponibles($fecha, $servicioId)
     {
-        // 👉 1. Obtener día en español y normalizar tildes
+        // 1. Servicio
+        $servicio = Service::find($servicioId);
+        if (!$servicio) {
+            return [];
+        }
+
+        $duracion  = $servicio->duracion_minutos;
+        $tipo      = $servicio->tipo;
+        $capacidad = $servicio->capacidad_simultanea;
+
+        // 2. Día en español sin tildes
         $dia = strtolower(
             Carbon::parse($fecha)->locale('es')->dayName
         );
 
+        // Normalizar tildes (miércoles, sábado)
         $dia = str_replace(
             ['á','é','í','ó','ú'],
             ['a','e','i','o','u'],
             $dia
         );
 
-        // 👉 2. Traer horarios base de ese día
+        // 3. Horarios base
         $bloques = HorarioBase::where('dia', $dia)
             ->where('activo', 1)
             ->get();
 
-        // Si no hay horario configurado → no hay horas
         if ($bloques->isEmpty()) {
             return [];
         }
 
-        // 👉 3. Revisar excepción de ese día
+        // 4. Excepciones
         $excepcion = HorarioExcepcion::where('fecha', $fecha)->first();
 
         if ($excepcion) {
-
-            // Si la excepción no tiene "desde" = día cerrado
             if (!$excepcion->desde) {
                 return [];
             }
 
-            // Reemplazar bloques por la excepción
             $bloques = collect([[
                 'desde' => $excepcion->desde,
                 'hasta' => $excepcion->hasta
             ]]);
         }
 
-        // 👉 4. Validar servicio
-        $servicio = Service::find($servicioId);
-
-        if (!$servicio) {
-            return [];
-        }
-
-        $duracion = $servicio->duracion_minutos;
-
+        // 5. Generar horas
         $horas = [];
 
-        // 👉 5. Generar slots por cada bloque
         foreach ($bloques as $b) {
 
             $inicio = Carbon::parse($b['desde']);
@@ -69,15 +67,32 @@ class AgendaService
 
             while ($inicio->copy()->addMinutes($duracion) <= $fin) {
 
-                $hora = $inicio->format('H:i');
+                // $hora = $inicio->format('H:i');
+                $hora = $inicio->format('H:i:s');
 
-                // 👉 6. Validar si ya está ocupada
-                $ocupado = Reservation::where('fecha', $fecha)
+
+                // Reservas existentes para esa hora
+                $ocupadas = Reservation::where('fecha', $fecha)
                     ->where('hora', $hora)
-                    ->exists();
+                    ->whereIn('estado', [
+                        'pendiente',
+                        'anticipo_pagado',
+                        'pagado'
+                    ])
+                    ->count();
 
-                if (!$ocupado) {
-                    $horas[] = $hora;
+                if ($tipo === 'estudio') {
+                    // Estudio: solo 1 permitido
+                    if ($ocupadas === 0) {
+                        $horas[] = $hora;
+                    }
+                }
+
+                if ($tipo === 'evento') {
+                    // Evento: hasta N simultáneos
+                    if ($ocupadas < $capacidad) {
+                        $horas[] = $hora;
+                    }
                 }
 
                 // Saltos de 30 minutos
@@ -85,6 +100,6 @@ class AgendaService
             }
         }
 
-        return $horas;
+        return array_values(array_unique($horas));
     }
 }
