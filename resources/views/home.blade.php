@@ -1,182 +1,86 @@
-<!DOCTYPE html>
-<html>
+{{-- @extends('layouts.app')
+ --}}
 
-<head>
-    <title>Fotos & Momentos - Reservas</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+ @extends('layouts.public')
 
-    {{-- @vite(['resources/css/app.css']) --}}
+@section('content')
 
-</head>
+<section class="hero">
+    <div>
+        <h1>Creamos experiencias visuales<br>que conectan marcas y emociones</h1>
+        <p>
+            Fotografía profesional, marketing visual y producción de eventos.
+            En Sym Foto Digital transformamos ideas en imágenes que impactan.
+        </p>
 
-<body>
-
-    <div class="container mx-auto p-8">
-
-        <h1 class="text-3xl font-bold mb-6">
-            📸 Reserva tu sesión
-        </h1>
-
-        @if (session('ok'))
-            <div class="bg-green-200 p-4 mb-4">
-                {{ session('ok') }}
-            </div>
-        @endif
+        <div class="actions">
+            <a href="{{ route('reservas') }}" class="btn-primary">Agendar sesión</a>
+            {{-- <a href="#">Ver servicios</a> --}}
+            <a href="{{ route('servicios') }}">Ver servicios</a>
+            {{-- <a href="{{ route('servicios.public') }}">Ver servicios</a> --}}
 
 
-        {{-- <form action="/reservar" method="POST" class="space-y-3">
-
-        @csrf
-
-        <input name="nombre" placeholder="Nombre"
-        class="border p-2 w-full">
-
-        <input name="email" placeholder="Email"
-        class="border p-2 w-full">
-
-        <input name="telefono" placeholder="Teléfono"
-        class="border p-2 w-full">
-
-        <input type="date" name="fecha"
-        class="border p-2 w-full">
-
-        <input type="time" name="hora"
-        class="border p-2 w-full">
-
-        <select name="tipo_evento" class="border p-2 w-full">
-          <option>Boda</option>
-          <option>Corporativo</option>
-          <option>15 años</option>
-        </select>
-
-        <select name="paquete" class="border p-2 w-full">
-          <option>Básico</option>
-          <option>Premium</option>
-        </select>
-
-        <input name="valor_total" value="744000"
-        class="border p-2 w-full">
-
-        <button class="bg-black text-white p-3">
-            Reservar
-        </button>
-
-    </form> --}}
-
-        <form method="POST" action="/reservar" id="formReserva">
-            @csrf
-
-            <div>
-                <label>Servicio</label>
-                <select name="servicio_id" id="servicio">
-                    <option value="">Seleccione...</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Fecha</label>
-                <input type="date" name="fecha" id="fecha">
-            </div>
-
-            <div>
-                <label>Hora disponible</label>
-                <select name="hora" id="hora">
-                    <option value="">Seleccione fecha primero</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Nombre</label>
-                <input name="nombre" required>
-            </div>
-
-            <div>
-                <label>Email</label>
-                <input name="email" required>
-            </div>
-
-            <div>
-                <label>Teléfono</label>
-                <input name="telefono" required>
-            </div>
-
-            <button type="submit">
-                Continuar al pago
-            </button>
-
-        </form>
-
-        <script>
-            const token = document.querySelector('meta[name="csrf-token"]').content;
-
-            // 1. Cargar servicios al entrar
-            fetch('/servicios-disponibles', {
-                    headers: {
-                        'X-CSRF-TOKEN': token
-                    }
-                })
-                .then(r => r.json())
-                .then(data => {
-
-                    let select = document.getElementById('servicio');
-
-                    data.forEach(s => {
-                        select.innerHTML += `
-            <option value="${s.id}">
-                ${s.nombre} - $${s.precio}
-            </option>
-        `;
-                    });
-                });
-
-
-            // 2. Cuando cambie fecha o servicio
-            async function cargarHoras() {
-
-                let fecha = document.getElementById('fecha').value;
-                let servicio = document.getElementById('servicio').value;
-
-                if (!fecha || !servicio) return;
-
-                let res = await fetch(
-                    `/horas-disponibles?fecha=${fecha}&servicio_id=${servicio}`, {
-                        headers: {
-                            'X-CSRF-TOKEN': token
-                        }
-                    }
-                );
-
-                let horas = await res.json();
-
-                let select = document.getElementById('hora');
-
-                select.innerHTML = '';
-
-                if (horas.length === 0) {
-                    select.innerHTML = `
-            <option>
-                No hay horas disponibles
-            </option>`;
-                    return;
-                }
-
-                horas.forEach(h => {
-                    select.innerHTML += `
-            <option value="${h}">
-                ${h}
-            </option>`;
-                });
-            }
-
-            document.getElementById('fecha')
-                .addEventListener('change', cargarHoras);
-
-            document.getElementById('servicio')
-                .addEventListener('change', cargarHoras);
-        </script>
-
+        </div>
     </div>
 
-</body>
+    <img src="{{ asset('assets/images/hero.png') }}" alt="Sym Foto Digital">
+</section>
 
-</html>
+<section class="section">
+    <h2>¿Qué hacemos?</h2>
+
+    <div class="services">
+        <div class="card">
+            <h3>Fotografía Profesional</h3>
+            <p>Estudio, bebés, familiar y eventos.</p>
+        </div>
+
+        <div class="card">
+            <h3>Marketing Visual</h3>
+            <p>Contenido creativo para marcas.</p>
+        </div>
+
+        <div class="card">
+            <h3>Eventos & Producción</h3>
+            <p>Cubrimos eventos sociales y corporativos.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section socials-section">
+    <h2>Síguenos en redes sociales</h2>
+    <p class="socials-subtitle">
+        Conoce nuestro trabajo, promociones y últimas sesiones
+    </p>
+
+    <div class="socials-grid">
+        <a href="https://www.instagram.com/symfotodigital/?hl=es"
+           target="_blank"
+           class="social-card instagram">
+            <span>Instagram</span>
+        </a>
+
+        <a href="https://www.facebook.com/symfotodigital/?locale=es_LA"
+           target="_blank"
+           class="social-card facebook">
+            <span>Facebook</span>
+        </a>
+
+        <a href="https://www.tiktok.com/@symfotodigital"
+           target="_blank"
+           class="social-card tiktok">
+            <span>TikTok</span>
+        </a>
+    </div>
+</section>
+
+
+<section class="cta">
+    <h2>Agenda tu sesión en pocos pasos</h2>
+    <p>Consulta disponibilidad y reserva tu fecha fácilmente.</p>
+    <br>
+    <a href="{{ route('reservas') }}" class="btn-primary">Ir a reservas</a>
+</section>
+
+
+@endsection

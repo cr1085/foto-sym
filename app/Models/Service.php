@@ -20,6 +20,7 @@ class Service extends Model
         'precio',
         'tipo',
         'capacidad_simultanea',
-        'activo'
+        'activo',
+         'imagen'
     ];
 }

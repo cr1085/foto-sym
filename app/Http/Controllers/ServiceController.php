@@ -24,13 +24,20 @@ class ServiceController extends Controller
         $data = $request->validate([
             'nombre' => 'required',
             'duracion_minutos' => 'required|integer',
-            'precio' => 'required|numeric'
+            'precio' => 'required|numeric',
+            'imagen' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')
+                ->store('servicios', 'public');
+        }
+
 
         Service::create($data);
 
         return redirect('/admin/servicios')
-            ->with('ok','Servicio creado correctamente');
+            ->with('ok', 'Servicio creado correctamente');
     }
 
     public function edit(Service $servicio)
@@ -43,19 +50,26 @@ class ServiceController extends Controller
         $data = $request->validate([
             'nombre' => 'required',
             'duracion_minutos' => 'required|integer',
-            'precio' => 'required|numeric'
+            'precio' => 'required|numeric',
+            'imagen' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')
+                ->store('servicios', 'public');
+        }
+
 
         $servicio->update($data);
 
         return redirect('/admin/servicios')
-            ->with('ok','Servicio actualizado');
+            ->with('ok', 'Servicio actualizado');
     }
 
     public function destroy(Service $servicio)
     {
         $servicio->delete();
 
-        return back()->with('ok','Servicio eliminado');
+        return back()->with('ok', 'Servicio eliminado');
     }
 }

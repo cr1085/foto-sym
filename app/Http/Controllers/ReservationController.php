@@ -10,71 +10,34 @@ use App\Models\Service;
 
 class ReservationController extends Controller
 {
-    //
-    // public function store(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'nombre' => 'required',
-    //         'email' => 'required|email',
-    //         'telefono' => 'required',
-    //         'fecha' => 'required',
-    //         'hora' => 'required',
-    //         'tipo_evento' => 'required',
-    //         'paquete' => 'required',
-    //         'valor_total' => 'required'
-    //     ]);
-
-    //     $data['anticipo'] = $data['valor_total'] * 0.5;
-    //     $data['saldo'] = $data['valor_total'] * 0.5;
-
-    //     $reserva = Reservation::create($data);
-
-    //     return redirect()->back()
-    //         ->with('ok', 'Reserva creada');
-    // }
 
 
-    // public function store(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'servicio_id' => 'required|exists:services,id',
-    //         'fecha'       => 'required|date',
-    //         'hora'        => 'required',
-    //         'nombre'      => 'required',
-    //         'email'       => 'required|email',
-    //         'telefono'    => 'required',
-    //     ]);
+public function index()
+{
+    $reservas = Reservation::with('servicio')
+        ->orderBy('fecha')
+        ->orderBy('hora')
+        ->get();
 
-    //     $servicio = Service::findOrFail($data['servicio_id']);
+    return view('admin.reservas.index', compact('reservas'));
+}
 
-    //     $valorTotal = $servicio->precio;
-    //     $anticipo   = $valorTotal * 0.5;
-    //     $saldo      = $valorTotal - $anticipo;
+public function show(Reservation $reservation)
+{
+    return view('admin.reservas.show', compact('reservation'));
+}
 
-    //     $estado = $servicio->tipo === 'evento'
-    //         ? 'pendiente_confirmacion'
-    //         : 'pendiente';
+public function cambiarEstado(Request $request, Reservation $reservation)
+{
+    $request->validate([
+        'estado' => 'required|in:pendiente,pendiente_confirmacion,anticipo_pagado,pagado,cancelado'
+    ]);
 
+    $reservation->estado = $request->estado;
+    $reservation->save();
 
-
-    //     Reservation::create([
-    //         'servicio_id' => $servicio->id,
-    //         'nombre'      => $data['nombre'],
-    //         'email'       => $data['email'],
-    //         'telefono'    => $data['telefono'],
-    //         'fecha'       => $data['fecha'],
-    //         'hora'        => $data['hora'],
-    //         'valor_total' => $valorTotal,
-    //         'anticipo'    => $anticipo,
-    //         'saldo'       => $saldo,
-    //         'estado'      => $estado,
-    //     ]);
-
-    //     return redirect('/')
-    //         ->with('ok', 'Reserva creada correctamente');
-    // }
-
-
+    return back()->with('ok', 'Estado actualizado');
+}
 
 
   public function store(Request $request)

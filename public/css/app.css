@@ -1,0 +1,348 @@
+
+        :root {
+            --vinotinto: #6b0f3f;
+            --naranja: #f59e0b;
+            --gris: #444;
+            --bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--gris);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            border-bottom: 1px solid #eee;
+        }
+
+        header img {
+            height: 55px;
+        }
+
+        nav a {
+            margin-left: 30px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--vinotinto);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .hero {
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: var(--vinotinto);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .hero .actions a {
+            margin-right: 15px;
+        }
+
+        .hero img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        .section {
+            padding: 80px 60px;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: var(--vinotinto);
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .card {
+            padding: 40px 30px;
+            border-radius: 20px;
+            background: #fafafa;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--vinotinto);
+        }
+
+        .card p {
+            font-size: 15px;
+        }
+
+        .cta {
+            background: var(--vinotinto);
+            color: white;
+            text-align: center;
+            padding: 80px 40px;
+            border-radius: 30px;
+            margin: 0 60px 80px;
+        }
+
+        .cta h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+        }
+
+        footer {
+            padding: 40px 60px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+
+        .booking-wrapper {
+    max-width: 700px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 50px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.08);
+}
+
+.booking-wrapper h1 {
+    color: var(--vinotinto);
+    margin-bottom: 10px;
+}
+
+.booking-wrapper .subtitle {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.booking-wrapper label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.booking-wrapper input,
+.booking-wrapper select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.booking-wrapper input:focus,
+.booking-wrapper select:focus {
+    outline: none;
+    border-color: var(--vinotinto);
+}
+
+.booking-wrapper button {
+    width: 100%;
+    padding: 16px;
+    background: var(--vinotinto);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.booking-wrapper button:hover {
+    opacity: .9;
+}
+
+
+/* ===== REDES SOCIALES ===== */
+
+.socials-section {
+    text-align: center;
+}
+
+.socials-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.socials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.social-card {
+    height: 140px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.social-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,0,0,.2);
+}
+
+/* Colores por red */
+.instagram {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+}
+
+.facebook {
+    background: linear-gradient(45deg, #1877f2, #0f5bd7);
+}
+
+.tiktok {
+    background: linear-gradient(45deg, #000000, #ff0050);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.service-card {
+    background: #fafafa;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,.05);
+}
+
+.service-card h3 {
+    color: var(--vinotinto);
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.price {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--vinotinto);
+    margin-bottom: 20px;
+}
+
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.service-card {
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
+    transition: transform .3s, box-shadow .3s;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 45px rgba(0,0,0,.12);
+}
+
+.service-image {
+    background: #eee;
+    padding: 14px;
+}
+
+.service-image img {
+    width: 100%;
+    border-radius: 16px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.service-body {
+    padding: 24px;
+    text-align: center;
+}
+
+.service-body h3 {
+    color: var(--vinotinto);
+    margin-bottom: 10px;
+}
+
+.service-desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.service-price {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.service-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-whatsapp {
+    background: #25d366;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+}
