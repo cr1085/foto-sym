@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -28,10 +29,30 @@ class ServiceController extends Controller
             'imagen' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('imagen')) {
-            $data['imagen'] = $request->file('imagen')
-                ->store('servicios', 'public');
-        }
+    //     if ($request->hasFile('imagen')) {
+    //         $data['imagen'] = $request->file('imagen')
+    //             ->store('servicios', 'public');
+    //    }
+
+  if ($request->hasFile('imagen')) {
+
+    // 1️⃣ Guardar con Laravel (funcional, NO se toca)
+    $path = $request->file('imagen')->store('servicios', 'public');
+    $data['imagen'] = $path;
+
+    // 2️⃣ ORIGEN REAL (correcto)
+    $origen = Storage::disk('public')->path($path);
+
+    // 3️⃣ DESTINO en public_html
+    $destino = $_SERVER['DOCUMENT_ROOT'].'/storage/'.$path;
+
+    if (!file_exists(dirname($destino))) {
+        mkdir(dirname($destino), 0755, true);
+    }
+
+    copy($origen, $destino);
+}
+
 
 
         Service::create($data);
@@ -54,10 +75,32 @@ class ServiceController extends Controller
             'imagen' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('imagen')) {
-            $data['imagen'] = $request->file('imagen')
-                ->store('servicios', 'public');
-        }
+        // if ($request->hasFile('imagen')) {
+        //     $data['imagen'] = $request->file('imagen')
+        //         ->store('servicios', 'public');
+        // }
+
+
+     if ($request->hasFile('imagen')) {
+
+    // 1️⃣ Guardar con Laravel (funcional, NO se toca)
+    $path = $request->file('imagen')->store('servicios', 'public');
+    $data['imagen'] = $path;
+
+    // 2️⃣ ORIGEN REAL (correcto)
+    $origen = Storage::disk('public')->path($path);
+
+    // 3️⃣ DESTINO en public_html
+    $destino = $_SERVER['DOCUMENT_ROOT'].'/storage/'.$path;
+
+    if (!file_exists(dirname($destino))) {
+        mkdir(dirname($destino), 0755, true);
+    }
+
+    copy($origen, $destino);
+}
+
+
 
 
         $servicio->update($data);

@@ -31,7 +31,7 @@
                                 Reservar
                             </a>
 
-                            <a href="https://wa.me/573XXXXXXXXX?text=Hola,%20quiero%20información%20sobre%20{{ urlencode($s->nombre) }}"
+                            <a href="https://wa.me/573016752947?text=Hola,%20quiero%20información%20sobre%20{{ urlencode($s->nombre) }}"
                                 target="_blank" class="btn-whatsapp">
                                 WhatsApp
                             </a>

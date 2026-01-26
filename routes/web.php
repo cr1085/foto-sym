@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AgendaController;
@@ -26,6 +27,22 @@ Route::get('/reservas', function () {
 // Route::get('/servicios', function () {
 //     return view('servicios.index');
 // })->name('servicios.public');
+
+Route::get('/contacto', function () {
+    return view('contacto');
+})->name('contacto');
+
+
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    return 'Cache limpio';
+});
+
+
+Route::post('/contacto', [\App\Http\Controllers\ContactoController::class, 'enviar'])
+    ->name('contacto.enviar');
+
 
 
 Route::get('/servicios', function () {

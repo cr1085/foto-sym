@@ -26,7 +26,9 @@
             {{-- <a href="{{ route('servicios.public') }}">Servicios</a> --}}
             <a href="{{ route('servicios') }}">Servicios</a>
             {{-- <a href="{{ route('reservas') }}">Reservas</a> --}}
-            <a href="#">Contacto</a>
+            {{-- <a href="#">Contacto</a>
+             --}}
+             <a href="{{ route('contacto') }}">Contacto</a>
             <a href="{{ route('login') }}">Admin</a>
 
         </nav>
