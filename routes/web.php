@@ -9,12 +9,13 @@ use App\Http\Controllers\Admin\ReservationAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Service;
-
+use App\Http\Controllers\GaleriaController;
 /*
 |--------------------------------------------------------------------------
 | WEB PÚBLICA
 |--------------------------------------------------------------------------
 */
+
 
 Route::get('/', function () {
     return view('home');
@@ -24,9 +25,8 @@ Route::get('/reservas', function () {
     return view('reservas.index');
 })->name('reservas');
 
-// Route::get('/servicios', function () {
-//     return view('servicios.index');
-// })->name('servicios.public');
+Route::get('/portafolio', [GaleriaController::class, 'index'])
+    ->name('galeria.public');
 
 Route::get('/contacto', function () {
     return view('contacto');
@@ -88,7 +88,16 @@ Route::middleware(['auth', 'nocache'])
         Route::get('/usuarios/crear', function () {
             return view('admin.usuarios.create');
         })->name('admin.usuarios.create');
-});
+
+        Route::get('/galeria', [\App\Http\Controllers\Admin\GaleriaController::class, 'index'])
+            ->name('admin.galeria.index');
+
+        Route::get('/galeria/crear', [\App\Http\Controllers\Admin\GaleriaController::class, 'create'])
+            ->name('admin.galeria.create');
+
+        Route::post('/galeria', [\App\Http\Controllers\Admin\GaleriaController::class, 'store'])
+            ->name('admin.galeria.store');
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -102,4 +111,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

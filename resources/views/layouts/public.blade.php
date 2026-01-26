@@ -28,6 +28,7 @@
             {{-- <a href="{{ route('reservas') }}">Reservas</a> --}}
             {{-- <a href="#">Contacto</a>
              --}}
+             <a href="{{ route('galeria.public') }}">Galería</a>
              <a href="{{ route('contacto') }}">Contacto</a>
             <a href="{{ route('login') }}">Admin</a>
 

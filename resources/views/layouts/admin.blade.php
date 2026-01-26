@@ -485,57 +485,56 @@
 
         /* ===== Crear usuario (Admin) ===== */
 
-.admin-form-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-}
+        .admin-form-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
 
-.user-card {
-    width: 100%;
-    max-width: 520px;
-    padding: 30px 35px;
-}
+        .user-card {
+            width: 100%;
+            max-width: 520px;
+            padding: 30px 35px;
+        }
 
-.form-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    color: var(--vinotinto);
-}
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--vinotinto);
+        }
 
-.user-card .form-group {
-    margin-bottom: 18px;
-}
+        .user-card .form-group {
+            margin-bottom: 18px;
+        }
 
-.user-card .form-group label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
-}
+        .user-card .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
 
-.user-card input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
+        .user-card input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
 
-.user-card input:focus {
-    outline: none;
-    border-color: var(--vinotinto);
-    box-shadow: 0 0 0 2px rgba(107,15,63,.08);
-}
+        .user-card input:focus {
+            outline: none;
+            border-color: var(--vinotinto);
+            box-shadow: 0 0 0 2px rgba(107, 15, 63, .08);
+        }
 
-.user-card .form-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 25px;
-    justify-content: flex-start;
-}
-
+        .user-card .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            justify-content: flex-start;
+        }
     </style>
 </head>
 
@@ -549,7 +548,12 @@
             <a href="{{ route('admin.reservas.index') }}">Reservas</a>
             <a href="{{ route('servicios.index') }}">Servicios</a>
             {{-- <a href="/" target="_blank">Ver sitio</a> --}}
-            <a href="/" >Ver sitio</a>
+            <a href="{{ route('admin.galeria.index') }}" class="btn btn-primary"
+                style="margin-top:15px; display:inline-block">
+                🖼️ Administrar galería
+            </a>
+
+            <a href="/">Ver sitio</a>
             <a href="{{ route('admin.usuarios.create') }}">
                 Crear usuario
             </a>
