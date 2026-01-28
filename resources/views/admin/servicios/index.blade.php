@@ -7,7 +7,7 @@
 <div class="card">
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <h2>馃洜 Servicios</h2>
+        <h2>Servicios</h2>
 
         <a href="{{ route('servicios.create') }}" class="btn">
             + Nuevo servicio
@@ -15,6 +15,17 @@
     </div>
 
     <div class="table-responsive">
+          @if (session('success'))
+                <div style="background:#bbf7d0;padding:12px 18px;border-radius:12px;margin-bottom:20px">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div style="background:#fecaca;padding:12px 18px;border-radius:12px;margin-bottom:20px">
+                    {{ session('error') }}
+                </div>
+            @endif
         <table class="admin-table">
             <thead>
                 <tr>
@@ -30,11 +41,28 @@
                         <td><strong>{{ $s->nombre }}</strong></td>
                         <td>{{ $s->duracion_minutos }} min</td>
                         <td>${{ number_format($s->precio,0,',','.') }}</td>
-                        <td>
+                             {{-- <td>
                             <a href="{{ route('servicios.edit',$s) }}" class="btn-sm">
                                 Editar
                             </a>
-                        </td>
+                        </td> --}}
+                            <td style="display:flex; gap:8px">
+
+                                <a href="{{ route('servicios.edit', $s) }}" class="btn-sm">
+                                   Editar
+                                </a>
+
+                                <form action="{{ route('servicios.destroy', $s) }}" method="POST"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar este servicio?')">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" class="btn-sm" style="background:#b00020">
+                                         Eliminar
+                                    </button>
+                                </form>
+
+                            </td>
                     </tr>
                 @empty
                     <tr>

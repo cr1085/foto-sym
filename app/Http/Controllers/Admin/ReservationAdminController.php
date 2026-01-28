@@ -55,6 +55,15 @@ class ReservationAdminController extends Controller
 
         return back()->with('ok', 'Estado actualizado');
     }
+    
+    public function destroy(Reservation $reservation)
+{
+    $reservation->delete();
+
+    return redirect()
+        ->route('admin.reservas.index')
+        ->with('success', 'Reserva eliminada correctamente');
+}
 
 
 

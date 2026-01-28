@@ -4,48 +4,56 @@
 
 @section('content')
 
-<div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <h2>🖼 Galería</h2>
+     <section class="section">
+        <h2>Galería</h2>
 
+      <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h2>Galería</h2>
         <a href="{{ route('admin.galeria.create') }}" class="btn">
             + Nueva imagen
         </a>
     </div>
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
 
-    @if(session('ok'))
-        <div style="background:#dcfce7;padding:12px;border-radius:8px;margin-bottom:15px">
-            {{ session('ok') }}
+            @foreach ($categorias as $cat)
+                <button class="filter-btn" data-filter="{{ $cat }}">
+                    {{ ucfirst($cat) }}
+                </button>
+            @endforeach
         </div>
-    @endif
 
-    <div class="services-grid">
 
-        @foreach($galerias as $g)
-            <div class="service-card">
+        <div class="gallery-grid">
 
-                <div class="service-image">
-                    <img src="{{ asset('storage/'.$g->imagen) }}" alt="{{ $g->titulo }}">
+            @foreach ($galerias as $g)
+                {{-- <div class="gallery-card" onclick="openLightbox('{{ asset('storage/' . $g->imagen) }}')"> --}}
+                <div class="gallery-card" data-category="{{ $g->categoria }}">
+
+                    <img src="{{ asset('storage/' . $g->imagen) }}" alt="{{ $g->titulo }}"
+                        onclick="openLightbox('{{ asset('storage/' . $g->imagen) }}')">
+
+                    <a href="https://wa.me/573016752947?text={{ urlencode(
+                        'Hola, me interesa esta imagen: ' . $g->titulo . ($g->precio ? ' | Precio: $' . number_format($g->precio) : ''),
+                    ) }}"
+                        target="_blank" class="whatsapp-float">
+                        💬
+                    </a>
+                    
+                    {{-- BOTÓN BORRAR --}}
+                        <form action="{{ route('admin.galeria.destroy', $g->id) }}" method="POST"
+                            onsubmit="return confirm('¿Seguro que deseas eliminar esta imagen?')" class="delete-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-delete">🗑</button>
+                        </form>
+
                 </div>
+            @endforeach
 
-                <div class="service-body">
-                    <h3>{{ $g->titulo }}</h3>
+        </div>
 
-                    <p style="font-size:13px;color:#666">
-                        {{ $g->categoria }}
-                    </p>
 
-                    @if($g->precio)
-                        <p class="service-price">
-                            ${{ number_format($g->precio) }}
-                        </p>
-                    @endif
-                </div>
-
-            </div>
-        @endforeach
-
-    </div>
-</div>
-
+    </section>
 @endsection

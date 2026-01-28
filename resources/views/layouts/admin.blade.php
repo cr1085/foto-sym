@@ -535,6 +535,173 @@
             margin-top: 25px;
             justify-content: flex-start;
         }
+
+
+       .gallery-grid {
+    column-count: 4;
+    column-gap: 20px;
+}
+
+.gallery-card {
+    position: relative;
+    height: 260px;            /* 🔥 tamaño uniforme */
+    overflow: hidden;
+    border-radius: 16px;
+    background: #000;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* 🔥 clave */
+    transition: transform .4s ease;
+}
+
+/* ❌ QUITAMOS transform */
+.gallery-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay */
+.gallery-card::after {
+    content: "Ver";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    background: rgba(0,0,0,.4);
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.gallery-card:hover::after {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .gallery-grid { column-count: 3; }
+}
+@media (max-width: 768px) {
+    .gallery-grid { column-count: 2; }
+}
+@media (max-width: 480px) {
+    .gallery-grid { column-count: 1; }
+}
+
+
+.whatsapp-float {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #25d366;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 50%;
+    font-size: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    z-index: 5;
+    transition: transform .2s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 22px;
+    border-radius: 30px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .25s;
+}
+
+.filter-btn:hover {
+    background: #6b0f3f;
+    color: white;
+}
+
+.filter-btn.active {
+    background: #6b0f3f;
+    color: white;
+    border-color: #6b0f3f;
+}
+
+
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 22px;
+    border-radius: 30px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .25s;
+}
+
+.filter-btn:hover {
+    background: #6b0f3f;
+    color: white;
+}
+
+.filter-btn.active {
+    background: #6b0f3f;
+    color: white;
+    border-color: #6b0f3f;
+}
+
+
+.gallery-card {
+    position: relative;
+}
+
+.delete-form {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.btn-delete {
+    background: rgba(0,0,0,.7);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-delete:hover {
+    background: #b00020;
+}
+
+
+.gallery-card::after {
+    pointer-events: none;
+}
+
     </style>
 </head>
 
@@ -587,90 +754,49 @@
 
     </div>
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="lightbox"
+        style="display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.9);
+            justify-content:center; align-items:center;
+            z-index:9999"
+        onclick="closeLightbox()">
+
+        <img id="lightbox-img" style="max-width:90%; max-height:90%; border-radius:12px">
+    </div>
 
     <script>
-        const ctx = document.getElementById('reservasChart');
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
 
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    'Pendiente',
-                    'Por confirmar',
-                    'Pagado',
-                    'Cancelado'
-                ],
-                datasets: [{
-                    data: [
-                        {{ $pendiente }},
-                        {{ $confirmacion }},
-                        {{ $pagado }},
-                        {{ $cancelado }}
-                    ],
-                    backgroundColor: [
-                        '#fbbf24',
-                        '#a855f7',
-                        '#22c55e',
-                        '#ef4444'
-                    ]
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    </script> --}}
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
 
 
+    <script>
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
 
-    {{-- @if (isset($pendiente))
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                document.querySelectorAll('.filter-btn')
+                    .forEach(b => b.classList.remove('active'));
 
-        <script>
-            const ctx = document.getElementById('reservasChart');
+                btn.classList.add('active');
 
-            if (ctx) {
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: [
-                            'Pendiente',
-                            'Por confirmar',
-                            'Pagado',
-                            'Cancelado'
-                        ],
-                        datasets: [{
-                            data: [
-                                {{ $pendiente }},
-                                {{ $confirmacion }},
-                                {{ $pagado }},
-                                {{ $cancelado }}
-                            ],
-                            backgroundColor: [
-                                '#fbbf24',
-                                '#a855f7',
-                                '#22c55e',
-                                '#ef4444'
-                            ]
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
+                const filter = btn.dataset.filter;
+
+                document.querySelectorAll('.gallery-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
                     }
                 });
-            }
-        </script>
-    @endif --}}
-
+            });
+        });
+    </script>
 
 </body>
 

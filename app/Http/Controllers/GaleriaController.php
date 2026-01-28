@@ -8,8 +8,16 @@ class GaleriaController extends Controller
 {
     public function index()
     {
+        // $galerias = Galeria::orderBy('categoria')->get();
+
+        // return view('galeria.index', compact('galerias'));
+
         $galerias = Galeria::orderBy('categoria')->get();
 
-        return view('galeria.index', compact('galerias'));
+        $categorias = Galeria::select('categoria')
+            ->distinct()
+            ->pluck('categoria');
+
+        return view('galeria.index', compact('galerias', 'categorias'));
     }
 }

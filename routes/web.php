@@ -97,6 +97,14 @@ Route::middleware(['auth', 'nocache'])
 
         Route::post('/galeria', [\App\Http\Controllers\Admin\GaleriaController::class, 'store'])
             ->name('admin.galeria.store');
+            
+               Route::delete('/galeria/{galeria}', [\App\Http\Controllers\Admin\GaleriaController::class, 'destroy'])
+    ->name('admin.galeria.destroy');
+    
+    Route::delete('/reservas/{reservation}', [ReservationAdminController::class, 'destroy'])
+    ->name('admin.reservas.destroy');
+
+    
     });
 
 /*

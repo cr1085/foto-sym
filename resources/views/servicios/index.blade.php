@@ -11,7 +11,19 @@
 
                     <div class="service-image">
                         {{-- <img src="{{ asset('storage/servicios/'.$s->imagen) }}" alt="{{ $s->nombre }}"> --}}
-                        <img src="{{ asset('storage/' . $s->imagen) }}" alt="{{ $s->nombre }}">
+                        {{-- <img src="{{ asset('storage/' . $s->imagen) }}" alt="{{ $s->nombre }}"> --}}
+
+                        <img
+    src="{{ asset('storage/' . $s->imagen) }}"
+    alt="{{ $s->nombre }}"
+    onclick="openLightbox(
+        '{{ asset('storage/' . $s->imagen) }}',
+        '{{ $s->nombre }}',
+        '{{ number_format($s->precio) }}'
+    )"
+    style="cursor:pointer"
+>
+
 
                     </div>
 
@@ -31,7 +43,7 @@
                                 Reservar
                             </a>
 
-                            <a href="https://wa.me/573016752947?text=Hola,%20quiero%20información%20sobre%20{{ urlencode($s->nombre) }}"
+                            <a href="https://wa.me/573016752947?text=Hola,%20quiero%20informaci��n%20sobre%20{{ urlencode($s->nombre) }}"
                                 target="_blank" class="btn-whatsapp">
                                 WhatsApp
                             </a>

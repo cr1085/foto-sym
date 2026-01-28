@@ -7,7 +7,7 @@
 <div class="card">
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <h2>📸 Reservas</h2>
+        <h2>ðŸ“¸ Reservas</h2>
     </div>
 
     {{-- FILTROS --}}
@@ -30,6 +30,12 @@
 
     {{-- TABLA --}}
     <div class="table-responsive">
+        @if (session('success'))
+                <div style="background:#bbf7d0;padding:12px 18px;border-radius:12px;margin-bottom:20px">
+                    {{ session('success') }}
+                </div>
+            @endif
+
         <table class="admin-table">
             <thead>
                 <tr>
@@ -53,11 +59,28 @@
                                 {{ str_replace('_',' ', $r->estado) }}
                             </span>
                         </td>
-                        <td>
+                           {{-- <td>
                             <a href="{{ route('admin.reservas.show',$r) }}" class="btn-sm">
                                 Ver
                             </a>
-                        </td>
+                        </td> --}}
+                            <td style="display:flex; gap:8px">
+
+                                <a href="{{ route('admin.reservas.show', $r) }}" class="btn-sm">
+                                    Ver
+                                </a>
+
+                                <form action="{{ route('admin.reservas.destroy', $r) }}" method="POST"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?')">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" class="btn-sm" style="background:#b00020">
+                                        🗑 Eliminar
+                                    </button>
+                                </form>
+
+                            </td>
                     </tr>
                 @empty
                     <tr>

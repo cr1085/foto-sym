@@ -16,8 +16,7 @@
         <div class="actions">
             <a href="{{ route('reservas') }}" class="btn-primary">Agendar sesión</a>
             {{-- <a href="#">Ver servicios</a> --}}
-            {{-- <a href="{{ route('servicios') }}">Ver servicios</a> --}}
-            <a href="{{ route('galeria.public') }}">Ver portafolio</a>
+            <a href="{{ route('servicios') }}">Ver servicios</a>
             {{-- <a href="{{ route('servicios.public') }}">Ver servicios</a> --}}
 
 

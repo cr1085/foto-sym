@@ -109,10 +109,37 @@ class ServiceController extends Controller
             ->with('ok', 'Servicio actualizado');
     }
 
+      // public function destroy(Service $servicio)
+    // {
+    //     $servicio->delete();
+
+    //     return back()->with('ok', 'Servicio eliminado');
+    // }
+
+
+    // public function destroy(Service $servicio)
+    // {
+    //     $servicio->delete();
+
+    //     return redirect()
+    //         ->route('servicios.index')
+    //         ->with('success', 'Servicio eliminado correctamente');
+    // }
+
     public function destroy(Service $servicio)
-    {
+{
+    try {
         $servicio->delete();
 
-        return back()->with('ok', 'Servicio eliminado');
+        return redirect()
+            ->route('servicios.index')
+            ->with('success', 'Servicio eliminado correctamente');
+
+    } catch (QueryException $e) {
+
+        return redirect()
+            ->route('servicios.index')
+            ->with('error', 'No se puede eliminar este servicio porque tiene reservas asociadas.');
     }
+}
 }

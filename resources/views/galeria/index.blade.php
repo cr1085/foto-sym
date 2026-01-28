@@ -1,50 +1,78 @@
 @extends('layouts.public')
 
 @section('content')
+    <section class="section">
+        <h2>Galería</h2>
 
-<section class="section">
-    <h2>Portafolio</h2>
+        {{-- <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
 
-    <div class="services-grid">
+            @foreach ($galerias->pluck('categoria')->unique() as $cat)
+                <button class="filter-btn" data-filter="{{ Str::slug($cat) }}">
+                    {{ $cat }}
+                </button>
+            @endforeach
+        </div> --}}
 
-        @foreach($galerias as $g)
-            <div class="service-card">
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
 
-                <div class="service-image">
-                    <img src="{{ asset('storage/'.$g->imagen) }}" alt="{{ $g->titulo }}">
-                </div>
+            @foreach ($categorias as $cat)
+                <button class="filter-btn" data-filter="{{ $cat }}">
+                    {{ ucfirst($cat) }}
+                </button>
+            @endforeach
+        </div>
 
-                <div class="service-body">
-                    <h3>{{ $g->titulo }}</h3>
 
-                    <p style="font-size:13px;color:#777">
-                        {{ $g->categoria }}
-                    </p>
+        <div class="gallery-grid">
 
-                    @if($g->precio)
-                        <p class="service-price">
-                            ${{ number_format($g->precio) }}
-                        </p>
-                    @endif
+            @foreach ($galerias as $g)
+                {{-- <div class="gallery-card" onclick="openLightbox('{{ asset('storage/' . $g->imagen) }}')"> --}}
+                {{-- <div class="gallery-card" data-category="{{ $g->categoria }}">
 
-                    <div class="service-actions">
+                    <img src="{{ asset('storage/' . $g->imagen) }}" alt="{{ $g->titulo }}"
+                        onclick="openLightbox(
+    '{{ asset('storage/' . $g->imagen) }}',
+    '{{ $g->titulo }}',
+    '{{ $g->precio }}'
+)">
 
-                        <a href="https://wa.me/573016752947
-?text=Hola,%20me%20interesa%20este%20servicio:%20{{ urlencode($g->titulo) }}
-%0APrecio:%20${{ number_format($g->precio) }}
-%0AImagen:%20{{ asset('storage/'.$g->imagen) }}"
-                           target="_blank"
-                           class="btn-whatsapp">
-                            Consultar por WhatsApp
-                        </a>
+                    <a href="https://wa.me/573016752947?text={{ urlencode(
+                        'Hola, me interesa esta imagen: ' . $g->titulo . ($g->precio ? ' | Precio: $' . number_format($g->precio) : ''),
+                    ) }}"
+                        target="_blank" class="whatsapp-float">
+                        💬
+                    </a>
 
-                    </div>
-                </div>
+                </div> --}}
 
-            </div>
-        @endforeach
 
-    </div>
-</section>
+                <div class="gallery-card"
+     data-category="{{ $g->categoria }}"
+     onclick="openLightbox(
+        '{{ asset('storage/'.$g->imagen) }}',
+        '{{ $g->titulo }}',
+        '{{ $g->precio }}'
+     )">
 
+    <img src="{{ asset('storage/'.$g->imagen) }}" alt="{{ $g->titulo }}">
+
+    <a href="https://wa.me/573016752947?text={{ urlencode(
+        'Hola, me interesa esta imagen: '.$g->titulo
+    ) }}"
+       target="_blank"
+       class="whatsapp-float"
+       onclick="event.stopPropagation()">
+        💬
+    </a>
+
+</div>
+
+            @endforeach
+
+        </div>
+
+
+    </section>
 @endsection
