@@ -34,6 +34,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Descripción (opcional)</label>
+                    <textarea name="descripcion" rows="4">{{ old('descripcion', $servicio->descripcion) }}</textarea>
+                </div>
+
+
+                <div class="form-group">
                     <label>Imagen del servicio</label>
                     <input type="file" name="imagen" accept="image/*">
                 </div>

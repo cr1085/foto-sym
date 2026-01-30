@@ -3,6 +3,11 @@
 @section('content')
     <section class="section">
         <h2>Servicios</h2>
+@if(!empty($servicio->descripcion))
+    <p class="service-desc">
+        {{ $servicio->descripcion }}
+    </p>
+@endif
 
         <div class="services-grid">
 
@@ -13,16 +18,13 @@
                         {{-- <img src="{{ asset('storage/servicios/'.$s->imagen) }}" alt="{{ $s->nombre }}"> --}}
                         {{-- <img src="{{ asset('storage/' . $s->imagen) }}" alt="{{ $s->nombre }}"> --}}
 
-                        <img
-    src="{{ asset('storage/' . $s->imagen) }}"
-    alt="{{ $s->nombre }}"
-    onclick="openLightbox(
+                        <img src="{{ asset('storage/' . $s->imagen) }}" alt="{{ $s->nombre }}"
+                            onclick="openLightbox(
         '{{ asset('storage/' . $s->imagen) }}',
         '{{ $s->nombre }}',
         '{{ number_format($s->precio) }}'
     )"
-    style="cursor:pointer"
->
+                            style="cursor:pointer">
 
 
                     </div>
@@ -39,9 +41,14 @@
                         </p>
 
                         <div class="service-actions">
-                            <a href="{{ route('reservas') }}" class="btn-primary">
+                            {{-- <a href="{{ route('reservas') }}" class="btn-primary">
+                                Reservar
+                            </a> --}}
+
+                            <a href="{{ route('reservas', ['servicio' => $s->id]) }}" class="btn-primary">
                                 Reservar
                             </a>
+
 
                             <a href="https://wa.me/573016752947?text=Hola,%20quiero%20informaci��n%20sobre%20{{ urlencode($s->nombre) }}"
                                 target="_blank" class="btn-whatsapp">

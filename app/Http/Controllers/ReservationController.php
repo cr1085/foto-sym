@@ -49,23 +49,23 @@ public function cambiarEstado(Request $request, Reservation $reservation)
         'nombre'      => 'required|string',
         'email'       => 'required|email',
         'telefono'    => 'required|string',
-        'fecha'       => 'required|date',
+        'fecha'       => 'required|date|after_or_equal:today',
         'hora'        => 'required',
         'paquete'     => 'nullable|string',
     ]);
 
     $servicio = Service::findOrFail($data['servicio_id']);
 
-    $horasDisponibles = $agendaService->horasDisponibles(
-        $data['fecha'],
-        $servicio->id
-    );
+    // $horasDisponibles = $agendaService->horasDisponibles(
+    //     $data['fecha'],
+    //     $servicio->id
+    // );
 
-    if (!in_array($data['hora'], $horasDisponibles)) {
-        return back()->withErrors([
-            'hora' => 'La hora seleccionada ya no está disponible'
-        ]);
-    }
+    // if (!in_array($data['hora'], $horasDisponibles)) {
+    //     return back()->withErrors([
+    //         'hora' => 'La hora seleccionada ya no está disponible'
+    //     ]);
+    // }
 
     $valorTotal = $servicio->precio;
     $anticipo   = $servicio->tipo === 'evento' ? $valorTotal / 2 : null;
@@ -89,7 +89,16 @@ public function cambiarEstado(Request $request, Reservation $reservation)
         'estado'      => $estado,
     ]);
 
-    return back()->with('success', 'Reserva creada correctamente');
+    // return back()->with('success', 'Reserva creada correctamente');
+    // return back()->with('ok', '✅ Tu reserva fue agendada correctamente. Revisa los detalles y continúa con el pago.');
+   return redirect()->route('pago.lite', [
+    'servicio' => $servicio->nombre,
+    'fecha'    => $data['fecha'],
+    'hora'     => $data['hora'],
+]);
+
+
+
 }
 
 
@@ -104,4 +113,31 @@ public function cambiarEstado(Request $request, Reservation $reservation)
 
         return response()->json($horas);
     }
+
+
+    public function create(Request $request)
+{
+    $servicios = Service::all();
+
+    $servicioSeleccionado = $request->get('servicio');
+
+    return view('reservas.create', compact(
+        'servicios',
+        'servicioSeleccionado'
+    ));
+}
+
+public function reservar(Request $request)
+{
+    $servicios = Service::all();
+
+    $servicioSeleccionado = $request->get('servicio');
+
+    return view('reservas.index', compact(
+        'servicios',
+        'servicioSeleccionado'
+    ));
+}
+
+
 }

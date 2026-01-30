@@ -487,3 +487,118 @@
 }
 
 
+.service-desc {
+    font-size: 14px;
+    color: #666;
+    margin: 12px 0 18px;
+    line-height: 1.5;
+}
+
+
+/* ===============================
+   RESPONSIVE MOBILE FIX
+================================ */
+
+@media (max-width: 768px) {
+
+    /* HEADER */
+    header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0;
+        font-size: 15px;
+    }
+
+    /* HERO */
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 60px 20px;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+        line-height: 1.25;
+    }
+
+    .hero p {
+        font-size: 16px;
+        margin: 0 auto 25px;
+    }
+
+    .hero .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .hero .actions a {
+        margin: 0;
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .hero img {
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    /* SECTIONS */
+    .section {
+        padding: 60px 20px;
+    }
+
+    .section h2 {
+        font-size: 26px;
+    }
+
+    /* SERVICES GRID */
+    .services {
+        grid-template-columns: 1fr;
+    }
+
+    /* CTA */
+    .cta {
+        margin: 0 20px 60px;
+        padding: 60px 20px;
+    }
+
+    .cta h2 {
+        font-size: 24px;
+    }
+
+    /* FOOTER */
+    footer {
+        flex-direction: column;
+        gap: 15px;
+        padding: 30px 20px;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+}
+
+

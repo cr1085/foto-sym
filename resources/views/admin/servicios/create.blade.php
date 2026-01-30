@@ -32,6 +32,11 @@
                     <input type="file" name="imagen" accept="image/*">
                 </div>
 
+                <div class="form-group">
+                    <label>Descripción (opcional)</label>
+                    <textarea name="descripcion" rows="4" placeholder="Ej: Incluye sesión, edición básica, 10 fotos digitales..."></textarea>
+                </div>
+
 
             </div>
 

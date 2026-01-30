@@ -12,7 +12,10 @@
             👤 Crear usuario
         </h3>
 
-        <form method="POST" action="{{ route('register') }}">
+        {{-- <form method="POST" action="{{ route('register') }}">
+             --}}
+             <form method="POST" action="{{ route('admin.usuarios.store') }}">
+
             @csrf
 
             <div class="form-group">
@@ -34,6 +37,8 @@
                 <label>Confirmar contraseña</label>
                 <input type="password" name="password_confirmation" required>
             </div>
+
+            
 
             <div class="form-actions">
                 <button class="btn">Crear usuario</button>

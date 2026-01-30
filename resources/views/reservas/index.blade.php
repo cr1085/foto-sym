@@ -1,5 +1,5 @@
 {{-- @extends('layouts.app') --}}
- @extends('layouts.public')
+@extends('layouts.public')
 
 
 @section('content')
@@ -14,6 +14,32 @@
                 {{ session('ok') }}
             </div>
         @endif
+        @if (session('ok'))
+            <div class="bg-white border rounded-lg p-5 mb-6">
+                <h2 class="text-xl font-semibold mb-3">
+                    🎉 Reserva registrada
+                </h2>
+
+                <p class="mb-4 text-gray-700">
+                    Tu sesión ha sido agendada. Para confirmar definitivamente,
+                    puedes realizar el pago o comunicarte con nosotros.
+                </p>
+
+                <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                    <!-- Botón de pago -->
+                    <a href="{{ route('pago.lite') }}" class="btn btn-primary"
+                        style="background:#4f46e5;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;">
+                        💳 Realizar pago</a>
+
+                    <!-- Botón WhatsApp -->
+                    <a href="https://wa.me/573016752947?text=Hola,%20realicé%20una%20reserva%20y%20deseo%20confirmarla"
+                        target="_blank" class="btn btn-success"
+                        style="background:#25D366;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;">
+                        💬 Conversar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        @endif
 
 
         <form method="POST" action="/reservar" id="formReserva">
@@ -21,14 +47,25 @@
 
             <div>
                 <label>Servicio</label>
-                <select name="servicio_id" id="servicio">
+                {{-- <select name="servicio_id" id="servicio">
                     <option value="">Seleccione...</option>
+                </select> --}}
+                <select name="servicio_id" id="servicio" required>
+                    <option value="">Seleccione un servicio</option>
+
+                    @foreach ($servicios as $servicio)
+                        <option value="{{ $servicio->id }}"
+                            {{ old('servicio_id', $servicioSeleccionado) == $servicio->id ? 'selected' : '' }}>
+                            {{ $servicio->nombre }} - ${{ number_format($servicio->precio) }}
+                        </option>
+                    @endforeach
                 </select>
+
             </div>
 
             <div>
                 <label>Fecha</label>
-                <input type="date" name="fecha" id="fecha">
+                <input type="date" name="fecha" id="fecha" min="{{ date('Y-m-d') }}">
             </div>
 
             <div>
@@ -138,7 +175,9 @@
                         select.innerHTML = `<option>No hay horarios disponibles</option>`;
 
                         msg.innerHTML = `
-        Ese día no tenemos disponibilidad.<br>
+       ⏰ En este momento no tenemos horarios disponibles.<br>
+Nuestro próximo horario disponible es más tarde.<br>
+Por favor intenta nuevamente o elige otra fecha.
         Intenta otra fecha o escríbenos por WhatsApp.
     `;
                         msg.style.display = 'block';
@@ -161,6 +200,7 @@
                     });
 
                 } catch (e) {
+                    console.error('Error al cargar horarios:', e);
                     select.innerHTML = `<option>Error al cargar horarios</option>`;
                 }
             }

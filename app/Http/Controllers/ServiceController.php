@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 
 class ServiceController extends Controller
 {
@@ -24,6 +25,7 @@ class ServiceController extends Controller
     {
         $data = $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'nullable|string',
             'duracion_minutos' => 'required|integer',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|image|max:2048',
@@ -70,6 +72,7 @@ class ServiceController extends Controller
     {
         $data = $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'nullable|string',
             'duracion_minutos' => 'required|integer',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|image|max:2048',

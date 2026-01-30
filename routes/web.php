@@ -8,6 +8,7 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\Admin\ReservationAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Models\Service;
 use App\Http\Controllers\GaleriaController;
 /*
@@ -21,9 +22,13 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/reservas', function () {
-    return view('reservas.index');
-})->name('reservas');
+// Route::get('/reservas', function () {
+//     return view('reservas.index');
+// })->name('reservas');
+
+Route::get('/reservas', [ReservationController::class, 'reservar'])
+    ->name('reservas');
+
 
 Route::get('/portafolio', [GaleriaController::class, 'index'])
     ->name('galeria.public');
@@ -38,6 +43,11 @@ Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     return 'Cache limpio';
 });
+
+
+Route::get('/pago', function () {
+    return view('pago.lite');
+})->name('pago.lite');
 
 
 Route::post('/contacto', [\App\Http\Controllers\ContactoController::class, 'enviar'])
@@ -60,6 +70,17 @@ Route::post('/reservar', [ReservationController::class, 'store']);
 
 Route::get('/horas-disponibles', [AgendaController::class, 'horas']);
 Route::get('/servicios-disponibles', [AgendaController::class, 'servicios']);
+Route::get('/debug-agenda', function () {
+    $fecha = request('fecha', now()->toDateString());
+    $servicioId = request('servicio_id', 1);
+
+    $agenda = app(\App\Services\AgendaService::class);
+
+    $horas = $agenda->horasDisponibles($fecha, $servicioId);
+
+    return view('debug.agenda', compact('fecha', 'servicioId', 'horas'));
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -97,15 +118,20 @@ Route::middleware(['auth', 'nocache'])
 
         Route::post('/galeria', [\App\Http\Controllers\Admin\GaleriaController::class, 'store'])
             ->name('admin.galeria.store');
-            
-               Route::delete('/galeria/{galeria}', [\App\Http\Controllers\Admin\GaleriaController::class, 'destroy'])
-    ->name('admin.galeria.destroy');
-    
-    Route::delete('/reservas/{reservation}', [ReservationAdminController::class, 'destroy'])
-    ->name('admin.reservas.destroy');
 
-    
+        Route::delete('/galeria/{galeria}', [\App\Http\Controllers\Admin\GaleriaController::class, 'destroy'])
+            ->name('admin.galeria.destroy');
+
+        Route::delete('/reservas/{reservation}', [ReservationAdminController::class, 'destroy'])
+            ->name('admin.reservas.destroy');
+
+        // routes/web.php
+        Route::post('/admin/usuarios', [AdminUserController::class, 'store'])
+            ->name('admin.usuarios.store');
     });
+
+
+
 
 /*
 |--------------------------------------------------------------------------
